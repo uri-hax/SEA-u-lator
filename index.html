@@ -1,252 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SEA‑u‑lator</title>
-  <meta name="description" content="SEA‑u‑lator — a privacy‑preserving phishing training extension for Gmail." />
-  <link rel="icon" href="logo.png" />
-  <style>
-    :root {
-      --text: #0b2545;           /* dark navy for strong contrast */
-      --muted: #324a6d;
-      --bg-card: #ffffff;        /* content card */
-      --accent: #0a66c2;         /* accessible blue */
-      --accent-hover: #084a8f;
-      --ring: rgba(10,102,194,0.25);
-      --shadow: 0 10px 24px rgba(0,0,0,.12), 0 6px 12px rgba(0,0,0,.06);
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SEA‑u‑lator</title>
+    <meta
+      name="description"
+      content="SEA-u-lator: Privacy Preserving Social Engineering Attack Simulator for Gmail"
+    />
+    <link rel="icon" href="images/logo.png" />
+    <style>
+      :root {
+        --text: #0b2545; /* dark navy for strong contrast */
+        --muted: #324a6d;
+        --bg-card: #ffffff; /* content card */
+        --accent: #0a66c2; /* accessible blue */
+        --accent-hover: #084a8f;
+        --ring: rgba(10, 102, 194, 0.25);
+        --shadow: 0 10px 24px rgba(0, 0, 0, 0.12),
+          0 6px 12px rgba(0, 0, 0, 0.06);
+      }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      color: var(--text);
-      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background-color: #e6f0f8;
-      position: relative;
-    }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background-color: #e6f0f8;
+        position: relative;
+      }
 
-    /* Background image with soft overlay for readability */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      background-image: linear-gradient(rgba(230,240,248,.75), rgba(230,240,248,.85)), url("bg-phish.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -1;
-      filter: saturate(.95);
-    }
+      /* Background image with soft overlay for readability */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(
+            rgba(230, 240, 248, 0.75),
+            rgba(230, 240, 248, 0.85)
+          ),
+          url("images/bg-phish.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
+        filter: saturate(0.95);
+      }
 
-    .wrapper {
-      display: grid;
-      place-items: center;
-      padding: 48px 16px 64px 16px;
-    }
+      .wrapper {
+        display: grid;
+        place-items: center;
+        padding: 48px 16px 64px 16px;
+      }
 
-    .card {
-      width: 100%;
-      max-width: 960px;
-      background: var(--bg-card);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 28px 24px 36px 24px;
-      border: 1px solid rgba(0,0,0,.06);
-    }
+      .card {
+        width: 100%;
+        max-width: 960px;
+        background: var(--bg-card);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        padding: 28px 24px 36px 24px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
 
-    header {
-      display: grid;
-      place-items: center;
-      text-align: center;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
+      header {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
 
-    .logo {
-      width: 104px; height: 104px;
-      border-radius: 50%;
-      border: 3px solid #d9e6f2;
-      box-shadow: 0 4px 10px rgba(0,0,0,.12);
-      object-fit: cover;
-      background: #fff;
-    }
+      .logo {
+        width: 104px;
+        height: 104px;
+        border-radius: 50%;
+        border: 3px solid #d9e6f2;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        object-fit: cover;
+        background: #fff;
+      }
 
-    h1 { 
-      margin: 8px 0 6px 0; 
-      font-weight: 800; 
-      letter-spacing: .2px; 
-      font-size: clamp(28px, 3.2vw, 44px);
-    }
-    .tagline { color: var(--muted); margin: 0 0 10px 0; font-size: 1.05rem; }
+      h1 {
+        margin: 8px 0 6px 0;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        font-size: clamp(28px, 3.2vw, 44px);
+      }
+      .tagline {
+        color: var(--muted);
+        margin: 0 0 10px 0;
+        font-size: 1.05rem;
+      }
 
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--accent);
-      color: #fff;
-      padding: 14px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 700;
-      letter-spacing: .2px;
-      box-shadow: 0 6px 16px rgba(10,102,194,.25);
-      border: 2px solid transparent;
-    }
-    .cta:focus { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    .cta:hover { background: var(--accent-hover); }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--accent);
+        color: #fff;
+        padding: 14px 18px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        box-shadow: 0 6px 16px rgba(10, 102, 194, 0.25);
+        border: 2px solid transparent;
+      }
+      .cta:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--ring);
+      }
+      .cta:hover {
+        background: var(--accent-hover);
+      }
 
-    .section { margin-top: 28px; }
-    .section h2 { font-size: clamp(22px, 2.2vw, 28px); margin: 0 0 8px; }
-    .section p { margin: 0 0 8px; }
+      .section {
+        margin-top: 28px;
+      }
+      .section h2 {
+        font-size: clamp(22px, 2.2vw, 28px);
+        margin: 0 0 8px;
+      }
+      .section p {
+        margin: 0 0 8px;
+      }
 
-    .video-wrap { 
-      margin: 18px 0 8px 0; 
-      border-radius: 14px; 
-      overflow: hidden; 
-      box-shadow: var(--shadow);
-      background: #000;
-    }
-    .video-wrap iframe { display: block; width: 100%; aspect-ratio: 16/9; border: 0; }
+      .video-wrap {
+        margin: 18px 0 8px 0;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        background: #000;
+      }
+      .video-wrap iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: 0;
+      }
 
-    .reqs, .steps { background: #f6f9fc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 16px; }
-    .reqs li + li, .steps li + li { margin-top: 6px; }
-    .steps ol { padding-left: 20px; }
+      .reqs,
+      .steps {
+        background: #f6f9fc;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+      }
+      .reqs li + li,
+      .steps li + li {
+        margin-top: 6px;
+      }
+      .steps ol {
+        padding-left: 20px;
+      }
 
-    .inline-btn { 
-      display: inline-block; 
-      margin-left: 8px; 
-      padding: 6px 10px; 
-      font-size: .95rem; 
-      background: var(--accent); 
-      color: #fff; 
-      border-radius: 8px; 
-      text-decoration: none; 
-      font-weight: 700; 
-    }
-    .inline-btn:hover { background: var(--accent-hover); }
+      .inline-btn {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 6px 10px;
+        font-size: 0.95rem;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .inline-btn:hover {
+        background: var(--accent-hover);
+      }
 
-    details {
-      margin-top: 18px;
-      background: #f6f9fc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 12px 14px;
-    }
-    details summary { cursor: pointer; font-weight: 700; }
-    pre#license { white-space: pre-wrap; overflow-wrap: anywhere; margin: 10px 0 0; padding: 12px; background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; max-height: 420px; overflow: auto; }
+      details {
+        margin-top: 18px;
+        background: #f6f9fc;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 12px 14px;
+      }
+      details summary {
+        cursor: pointer;
+        font-weight: 700;
+      }
+      pre#license {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        margin: 10px 0 0;
+        padding: 12px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        max-height: 420px;
+        overflow: auto;
+      }
 
-    footer { text-align: center; color: #5c6c84; font-size: .9rem; margin-top: 18px; }
+      footer {
+        text-align: center;
+        color: #5c6c84;
+        font-size: 0.9rem;
+        margin-top: 18px;
+      }
 
-    @media (prefers-color-scheme: dark) {
-      :root { --bg-card: #0f172a; --text: #f1f5f9; --muted: #cbd5e1; }
-      body { background-color: #0b1220; }
-      body::before { filter: opacity(.35) saturate(.9); }
-      .reqs, .steps, details { background: #0b2545; border-color: #1e3a5f; }
-      pre#license { background: #0b1220; border-color: #1f2937; }
-      .tagline { color: #cbd5e1; }
-    }
-  </style>
-</head>
-<body>
-  <main class="wrapper" aria-labelledby="site-title">
-    <article class="card" role="document">
-      <header>
-        <!-- Place your round PNG logo as logo.png next to this file -->
-        <img src="logo.png" alt="SEA‑u‑lator logo" class="logo" />
-        <h1 id="site-title">SEA‑u‑lator</h1>
-        <p class="tagline">A privacy‑preserving phishing training extension for Gmail.</p>
-        
-        <!-- Primary Download button (points to repo ZIP). Adjust if you use Releases. -->
-        <p>
-          <a class="cta" id="downloadTop" href="https://github.com/uri-hax/SEA-u-lator/archive/refs/heads/main.zip">⬇️ Download SEA‑u‑lator</a>
-        </p>
-      </header>
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-card: #0f172a;
+          --text: #f1f5f9;
+          --muted: #cbd5e1;
+        }
+        body {
+          background-color: #0b1220;
+        }
+        body::before {
+          filter: opacity(0.35) saturate(0.9);
+        }
+        .reqs,
+        .steps,
+        details {
+          background: #0b2545;
+          border-color: #1e3a5f;
+        }
+        pre#license {
+          background: #0b1220;
+          border-color: #1f2937;
+        }
+        .tagline {
+          color: #cbd5e1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrapper" aria-labelledby="site-title">
+      <article class="card" role="document">
+        <header>
+          <!-- Place your round PNG logo as logo.png next to this file -->
+          <img src="images/logo.png" alt="SEA‑u‑lator logo" class="logo" />
+          <h1 id="site-title">SEA‑u‑lator</h1>
+          <p class="tagline">
+            A privacy‑preserving phishing training extension for Gmail.
+          </p>
 
-      <section class="section" aria-labelledby="demo">
-        <h2 id="demo">Demo Video</h2>
-        <p>Watch a short demo of SEA‑u‑lator in action (YouTube unlisted is fine for embedding).</p>
-        <div class="video-wrap">
-          <!-- Replace VIDEO_ID with your actual YouTube video ID -->
-          <iframe 
-            title="SEA‑u‑lator demo" 
-            src="https://www.youtube.com/embed/VIDEO_ID?rel=0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen>
-          </iframe>
-        </div>
-      </section>
+          <!-- Primary Download button (points to repo ZIP). Adjust if you use Releases. -->
+          <p>
+            <a
+              class="cta"
+              id="downloadTop"
+              href="https://uri-hax.github.io/SEA-u-lator/extension/dist.zip"
+              >⬇️ Download SEA‑u‑lator</a
+            >
+          </p>
+        </header>
 
-      <section class="section" aria-labelledby="requirements">
-        <h2 id="requirements">Requirements</h2>
-        <ul class="reqs">
-          <li><strong>Ollama.</strong> Follow the installation steps here: <a href="https://ollama.com" target="_blank" rel="noopener">https://ollama.com</a>.</li>
-          <li><strong>Google Chrome.</strong> Get it here: <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">https://www.google.com/chrome/</a>.</li>
-          <li><strong>Gmail account.</strong></li>
-        </ul>
-      </section>
+        <section class="section" aria-labelledby="demo">
+          <h2 id="demo">Demo Video</h2>
+          <p>Watch a short demo of SEA‑u‑lator in action</p>
+          <div class="video-wrap">
+            <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+            <iframe
+              title="SEA‑u‑lator demo"
+              src="https://www.youtube.com/watch?v=VtUEWxIabd8"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+        </section>
 
-      <section class="section" aria-labelledby="install">
-        <h2 id="install">Install SEA‑u‑lator</h2>
-        <div class="steps">
-          <ol>
+        <section class="section" aria-labelledby="requirements">
+          <h2 id="requirements">Requirements</h2>
+          <ul class="reqs">
             <li>
-              <strong>Download the extension.</strong>
-              <a class="inline-btn" href="https://github.com/uri-hax/SEA-u-lator/archive/refs/heads/main.zip">Download</a>
-            </li>
-            <li><strong>Unzip</strong> the file and place the folder somewhere convenient.</li>
-            <li><strong>Open Google Chrome.</strong></li>
-            <li>
-              <strong>Load the unpacked extension:</strong> 
-              open <code>chrome://extensions/</code> → turn on <em>Developer mode</em> (top‑right) → <em>Load unpacked</em> → select the <strong>dist</strong> folder inside the unzipped project. You should see a success message.
+              <strong>Ollama.</strong> Follow the installation steps here:
+              <a href="https://ollama.com" target="_blank" rel="noopener"
+                >https://ollama.com</a
+              >.
             </li>
             <li>
-              <strong>Pin the extension (optional, recommended):</strong> click the puzzle icon next to the address bar → click the pin icon for <em>SEA‑u‑lator</em>.
+              <strong>Google Chrome.</strong> Get it here:
+              <a
+                href="https://www.google.com/chrome/"
+                target="_blank"
+                rel="noopener"
+                >https://www.google.com/chrome/</a
+              >.
             </li>
-            <li><strong>All set!</strong> You can now use SEA‑u‑lator. Happy PHISing! 🐟🔒
-            </li>
-          </ol>
-        </div>
-      </section>
+            <li><strong>Gmail account.</strong></li>
+          </ul>
+        </section>
 
-      <section class="section" aria-labelledby="license">
-        <details>
-          <summary id="license">License</summary>
-          <pre id="license">Loading license…</pre>
-        </details>
-      </section>
+        <section class="section" aria-labelledby="install">
+          <h2 id="install">Install SEA‑u‑lator</h2>
+          <div class="steps">
+            <ol>
+              <li>
+                <strong>Download the extension.</strong>
+                <a
+                  class="inline-btn"
+                  href="https://uri-hax.github.io/SEA-u-lator/extension/dist.zip"
+                  >Download</a
+                >
+              </li>
+              <li>
+                <strong>Unzip</strong> the file and place the folder somewhere
+                convenient.
+              </li>
+              <li><strong>Open Google Chrome.</strong></li>
+              <li>
+                <strong>Load the unpacked extension:</strong>
+                open <code>chrome://extensions/</code> → turn on
+                <em>Developer mode</em> (top‑right) → <em>Load unpacked</em> →
+                select the <strong>dist</strong> folder inside the unzipped
+                project. You should see a success message.
+              </li>
+              <li>
+                <strong>Pin the extension (optional, recommended):</strong>
+                click the puzzle icon next to the address bar → click the pin
+                icon for <em>SEA‑u‑lator</em>.
+              </li>
+              <li>
+                <strong>All set!</strong> You can now use SEA‑u-lator. Happy
+                PHISing! 🐟🔒
+              </li>
+            </ol>
+          </div>
+        </section>
 
-      <footer>
-        <p>
-          © <span id="year"></span> SEA‑u‑lator • <a href="https://github.com/uri-hax/SEA-u-lator" target="_blank" rel="noopener">GitHub repository</a>
-        </p>
-      </footer>
-    </article>
-  </main>
+        <section class="section" aria-labelledby="license">
+          <details>
+            <summary id="license">License</summary>
+            <pre id="license">Loading license…</pre>
+          </details>
+        </section>
 
-  <noscript>
-    <p style="max-width:960px;margin:0.5rem auto;padding:0 1rem;">JavaScript is disabled; the license text won’t auto‑load. You can read it in the repository.</p>
-  </noscript>
+        <footer>
+          <p>
+            © <span id="year"></span> SEA‑u‑lator •
+            <a
+              href="https://github.com/uri-hax/SEA-u-lator"
+              target="_blank"
+              rel="noopener"
+              >GitHub repository</a
+            >
+          </p>
+        </footer>
+      </article>
+    </main>
 
-  <script>
-    // Set current year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+    <noscript>
+      <p style="max-width: 960px; margin: 0.5rem auto; padding: 0 1rem">
+        JavaScript is disabled; the license text won’t auto‑load. You can read
+        it in the repository.
+      </p>
+    </noscript>
 
-    // If you keep LICENSE.md (or LICENSE) in your repo, this pulls it in here.
-    // Adjust the URL if you use a different branch/path/file name.
-    const LICENSE_URL = 'https://raw.githubusercontent.com/uri-hax/SEA-u-lator/main/LICENSE.md';
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
 
-    fetch(LICENSE_URL)
-      .then(r => r.ok ? r.text() : Promise.reject(r.status))
-      .then(text => {
-        const pre = document.getElementById('license');
-        pre.textContent = text;
-      })
-      .catch(() => {
-        const pre = document.getElementById('license');
-        pre.textContent = 'Could not load LICENSE.md. You can view it on GitHub.';
-      });
-  </script>
-</body>
+      const LICENSE_URL =
+        "https://raw.githubusercontent.com/uri-hax/SEA-u-lator-code/main/LICENSE";
+
+      fetch(LICENSE_URL)
+        .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+        .then((text) => {
+          document.getElementById("license").textContent = text;
+        })
+        .catch(() => {
+          document.getElementById("license").textContent =
+            "Could not load LICENSE. You can view it on GitHub.";
+        });
+    </script>
+  </body>
 </html>
