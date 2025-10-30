@@ -159,7 +159,7 @@
         margin-top: 6px;
       }
       .steps ol {
-        padding-left: 28px;
+        padding-left: 20px;
         margin: 0px;
       }
 
@@ -235,16 +235,19 @@
         }
       }
       a {
-        color: var(--accent);
+        color: #b9d322;
         text-decoration: underline;
       }
       a:visited {
-        color: var(--accent-hover);
+        color: #b9d322;
       }
       a:hover,
       a:focus {
-        color: var(--accent-hover);
+        color: #889d10;
         text-decoration: none;
+      }
+      .reqs li {
+        margin-left: 20px;
       }
     </style>
   </head>
@@ -256,7 +259,7 @@
           <img src="images/logo.png" alt="SEA‑u‑lator logo" class="logo" />
           <h1 id="site-title">SEA‑u‑lator</h1>
           <p class="tagline">
-            A privacy‑preserving phishing training extension for Gmail.
+            Privacy Preserving Social Engineering Attack Simulator for Gmail
           </p>
 
           <!-- Primary Download button (points to repo ZIP). Adjust if you use Releases. -->
@@ -272,10 +275,7 @@
 
         <section class="section" aria-labelledby="demo">
           <h2 id="demo">Demo Video</h2>
-          <p>
-            Watch a short demo of SEA-u-lator in action (YouTube unlisted is
-            fine for embedding).
-          </p>
+          <p>Watch a short demo of SEA-u-lator in action.</p>
           <div class="video-wrap">
             <iframe
               width="560"
@@ -332,9 +332,7 @@
               <li>
                 <strong>Load the unpacked extension:</strong>
                 <ol>
-                  <li>
-                    Open <code>chrome://extensions/</code> in your browser.
-                  </li>
+                  <li>Open <em>chrome://extensions/</em> in your browser.</li>
                   <li>Turn on <em>Developer mode</em> (top-right corner).</li>
                   <li>Click <em>Load unpacked</em>.</li>
                   <li>
