@@ -159,7 +159,8 @@
         margin-top: 6px;
       }
       .steps ol {
-        padding-left: 20px;
+        padding-left: 28px;
+        margin: 0px;
       }
 
       .inline-btn {
@@ -233,6 +234,18 @@
           color: #cbd5e1;
         }
       }
+      a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      a:visited {
+        color: var(--accent-hover);
+      }
+      a:hover,
+      a:focus {
+        color: var(--accent-hover);
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
@@ -251,7 +264,7 @@
             <a
               class="cta"
               id="downloadTop"
-              href="https://uri-hax.github.io/SEA-u-lator/extension/dist.zip"
+              href="https://github.com/uri-hax/SEA-u-lator/releases/download/v1.0.0/dist.zip"
               >⬇️ Download SEA‑u‑lator</a
             >
           </p>
@@ -259,16 +272,21 @@
 
         <section class="section" aria-labelledby="demo">
           <h2 id="demo">Demo Video</h2>
-          <p>Watch a short demo of SEA‑u‑lator in action</p>
+          <p>
+            Watch a short demo of SEA-u-lator in action (YouTube unlisted is
+            fine for embedding).
+          </p>
           <div class="video-wrap">
-            <!-- Replace VIDEO_ID with your actual YouTube video ID -->
             <iframe
-              title="SEA‑u‑lator demo"
-              src="https://www.youtube.com/watch?v=VtUEWxIabd8"
+              width="560"
+              height="315"
+              src="https://www.youtube-nocookie.com/embed/VtUEWxIabd8?si=I-lTfxYIsfxl4G8N"
+              title="YouTube video player"
+              frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
-            >
-            </iframe>
+            ></iframe>
           </div>
         </section>
 
@@ -295,48 +313,66 @@
         </section>
 
         <section class="section" aria-labelledby="install">
-          <h2 id="install">Install SEA‑u‑lator</h2>
+          <h2 id="install">Install SEA-u-lator</h2>
           <div class="steps">
             <ol>
               <li>
                 <strong>Download the extension.</strong>
                 <a
                   class="inline-btn"
-                  href="https://uri-hax.github.io/SEA-u-lator/extension/dist.zip"
+                  href="https://github.com/uri-hax/SEA-u-lator/releases/download/v1.0.0/dist.zip"
                   >Download</a
                 >
               </li>
               <li>
-                <strong>Unzip</strong> the file and place the folder somewhere
-                convenient.
+                <strong>Unzip</strong> the downloaded file and place the folder
+                somewhere convenient.
               </li>
               <li><strong>Open Google Chrome.</strong></li>
               <li>
                 <strong>Load the unpacked extension:</strong>
-                open <code>chrome://extensions/</code> → turn on
-                <em>Developer mode</em> (top‑right) → <em>Load unpacked</em> →
-                select the <strong>dist</strong> folder inside the unzipped
-                project. You should see a success message.
+                <ol>
+                  <li>
+                    Open <code>chrome://extensions/</code> in your browser.
+                  </li>
+                  <li>Turn on <em>Developer mode</em> (top-right corner).</li>
+                  <li>Click <em>Load unpacked</em>.</li>
+                  <li>
+                    Select the <strong>dist</strong> folder inside the unzipped
+                    project.
+                  </li>
+                  <li>
+                    You should see a success message confirming the
+                    installation.
+                  </li>
+                </ol>
               </li>
               <li>
                 <strong>Pin the extension (optional, recommended):</strong>
-                click the puzzle icon next to the address bar → click the pin
-                icon for <em>SEA‑u‑lator</em>.
+                Click the puzzle icon next to the address bar, then click the
+                pin icon for <em>SEA-u-lator</em>.
               </li>
               <li>
-                <strong>All set!</strong> You can now use SEA‑u-lator. Happy
+                <strong>All set!</strong> You can now use SEA-u-lator. Happy
                 PHISing! 🐟🔒
               </li>
             </ol>
           </div>
         </section>
 
-        <section class="section" aria-labelledby="license">
-          <details>
-            <summary id="license">License</summary>
-            <pre id="license">Loading license…</pre>
-          </details>
-        </section>
+        <details>
+          <summary id="license">License</summary>
+          <p>
+            View the full license here:
+            <a
+              href="https://github.com/uri-hax/SEA-u-lator/blob/main/LICENSE"
+              target="_blank"
+              rel="noopener"
+            >
+              https://github.com/uri-hax/SEA-u-lator/blob/main/LICENSE
+            </a>
+          </p>
+        </details>
 
         <footer>
           <p>
@@ -351,29 +387,5 @@
         </footer>
       </article>
     </main>
-
-    <noscript>
-      <p style="max-width: 960px; margin: 0.5rem auto; padding: 0 1rem">
-        JavaScript is disabled; the license text won’t auto‑load. You can read
-        it in the repository.
-      </p>
-    </noscript>
-
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-
-      const LICENSE_URL =
-        "https://raw.githubusercontent.com/uri-hax/SEA-u-lator-code/main/LICENSE";
-
-      fetch(LICENSE_URL)
-        .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
-        .then((text) => {
-          document.getElementById("license").textContent = text;
-        })
-        .catch(() => {
-          document.getElementById("license").textContent =
-            "Could not load LICENSE. You can view it on GitHub.";
-        });
-    </script>
   </body>
 </html>
