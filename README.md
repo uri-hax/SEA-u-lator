@@ -1,1 +1,3 @@
 # SEA-u-lator
+
+#tekst
